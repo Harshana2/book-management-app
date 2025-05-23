@@ -43,7 +43,7 @@ export class BookListComponent implements OnInit {
   }
 
   deleteBook(id: number): void {
-    if (confirm('Are you sure you want to delete this book?')) {
+    if (confirm('Are you sure you want to delete this book? This action cannot be undone.')) {
       this.bookService.deleteBook(id).subscribe({
         next: () => {
           this.books = this.books.filter(book => book.id !== id);
@@ -70,5 +70,18 @@ export class BookListComponent implements OnInit {
   onFormCancelled(): void {
     this.showAddForm = false;
     this.selectedBook = null;
+  }
+
+  trackByBookId(index: number, book: Book): number {
+    return book.id;
+  }
+
+  getUniqueAuthors(): number {
+    const uniqueAuthors = new Set(this.books.map(book => book.author.toLowerCase()));
+    return uniqueAuthors.size;
+  }
+
+  getCurrentYear(): number {
+    return new Date().getFullYear();
   }
 }

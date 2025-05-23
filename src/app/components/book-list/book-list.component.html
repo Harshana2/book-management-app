@@ -1,11 +1,27 @@
 <div class="container">
-  <h1>Book Management System</h1>
+  <h1>📚 Book Manager</h1>
+  <p class="subtitle">Organize and manage your digital book collection</p>
   
+  <div class="stats-bar" *ngIf="books.length > 0">
+    <div class="stat-item">
+      <div class="stat-number">{{ books.length }}</div>
+      <div class="stat-label">Total Books</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">{{ getUniqueAuthors() }}</div>
+      <div class="stat-label">Authors</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">{{ getCurrentYear() }}</div>
+      <div class="stat-label">Current Year</div>
+    </div>
+  </div>
+
   <div class="add-book-section">
     <button 
       class="btn btn-primary" 
       (click)="showAddForm = !showAddForm">
-      {{ showAddForm ? 'Cancel' : 'Add New Book' }}
+      {{ showAddForm ? '✕ Cancel' : '✨ Add New Book' }}
     </button>
   </div>
 
@@ -17,35 +33,48 @@
   </app-book-form>
 
   <div class="books-grid" *ngIf="books.length > 0">
-    <div class="book-card" *ngFor="let book of books">
+    <div class="book-card" *ngFor="let book of books; trackBy: trackByBookId">
       <div class="book-header">
         <h3>{{ book.title }}</h3>
         <div class="book-actions">
           <button 
             class="btn btn-edit" 
-            (click)="editBook(book)">
-            Edit
+            (click)="editBook(book)"
+            title="Edit book">
+            ✏️ Edit
           </button>
           <button 
             class="btn btn-delete" 
-            (click)="deleteBook(book.id)">
-            Delete
+            (click)="deleteBook(book.id)"
+            title="Delete book">
+            🗑️ Delete
           </button>
         </div>
       </div>
       <div class="book-details">
-        <p><strong>Author:</strong> {{ book.author }}</p>
-        <p><strong>ISBN:</strong> {{ book.isbn }}</p>
-        <p><strong>Publication Date:</strong> {{ book.publicationDate | date:'mediumDate' }}</p>
+        <p>
+          <strong>👤 Author:</strong> 
+          {{ book.author }}
+        </p>
+        <p>
+          <strong>📖 ISBN:</strong> 
+          {{ book.isbn }}
+        </p>
+        <p>
+          <strong>📅 Published:</strong> 
+          {{ book.publicationDate | date:'mediumDate' }}
+        </p>
       </div>
     </div>
   </div>
 
   <div class="no-books" *ngIf="books.length === 0 && !loading">
-    <p>No books found. Add your first book!</p>
+    <h2>📚 Your Library is Empty</h2>
+    <p>Start building your collection by adding your first book!</p>
   </div>
 
   <div class="loading" *ngIf="loading">
-    <p>Loading books...</p>
+    <div class="loading-spinner"></div>
+    <p>Loading your amazing books...</p>
   </div>
 </div>
