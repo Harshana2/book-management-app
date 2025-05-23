@@ -4,6 +4,7 @@ import { BookService } from '../../services/book.service';
 import { Book } from '../../models/book';
 import { BookFormComponent } from '../book-form/book-form.component';
 
+
 @Component({
   selector: 'app-book-list',
   standalone: true,
@@ -16,6 +17,11 @@ export class BookListComponent implements OnInit {
   showAddForm = false;
   selectedBook: Book | null = null;
   loading = false;
+
+  // Modal-related state
+  showConfirmDialog = false;
+bookIdToDelete: number | null = null;
+bookTitleToDelete: string = '';
 
   constructor(private bookService: BookService) {}
 
@@ -42,11 +48,23 @@ export class BookListComponent implements OnInit {
     this.showAddForm = true;
   }
 
-  deleteBook(id: number): void {
-    if (confirm('Are you sure you want to delete this book? This action cannot be undone.')) {
-      this.bookService.deleteBook(id).subscribe({
+  // Open confirmation modal
+ confirmDelete(id: number): void {
+  const book = this.books.find(b => b.id === id);
+  if (book) {
+    this.bookIdToDelete = id;
+    this.bookTitleToDelete = book.title;
+    this.showConfirmDialog = true;
+  }
+}
+
+  handleConfirmation(confirmed: boolean): void {
+    this.showConfirmDialog = false;
+    if (confirmed && this.bookIdToDelete !== null) {
+      this.bookService.deleteBook(this.bookIdToDelete).subscribe({
         next: () => {
-          this.books = this.books.filter(book => book.id !== id);
+          this.books = this.books.filter(book => book.id !== this.bookIdToDelete);
+          this.bookIdToDelete = null;
         },
         error: (error) => {
           console.error('Error deleting book:', error);
