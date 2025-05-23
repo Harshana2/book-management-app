@@ -1,0 +1,72 @@
+<div class="form-container">
+  <h2>{{ book ? 'Edit Book' : 'Add New Book' }}</h2>
+  
+  <form [formGroup]="bookForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="title">Title *</label>
+      <input 
+        type="text" 
+        id="title" 
+        formControlName="title"
+        class="form-control"
+        [class.error]="bookForm.get('title')?.invalid && bookForm.get('title')?.touched">
+      <div class="error-message" *ngIf="bookForm.get('title')?.invalid && bookForm.get('title')?.touched">
+        Title is required
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="author">Author *</label>
+      <input 
+        type="text" 
+        id="author" 
+        formControlName="author"
+        class="form-control"
+        [class.error]="bookForm.get('author')?.invalid && bookForm.get('author')?.touched">
+      <div class="error-message" *ngIf="bookForm.get('author')?.invalid && bookForm.get('author')?.touched">
+        Author is required
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="isbn">ISBN *</label>
+      <input 
+        type="text" 
+        id="isbn" 
+        formControlName="isbn"
+        class="form-control"
+        [class.error]="bookForm.get('isbn')?.invalid && bookForm.get('isbn')?.touched">
+      <div class="error-message" *ngIf="bookForm.get('isbn')?.invalid && bookForm.get('isbn')?.touched">
+        ISBN is required
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="publicationDate">Publication Date *</label>
+      <input 
+        type="date" 
+        id="publicationDate" 
+        formControlName="publicationDate"
+        class="form-control"
+        [class.error]="bookForm.get('publicationDate')?.invalid && bookForm.get('publicationDate')?.touched">
+      <div class="error-message" *ngIf="bookForm.get('publicationDate')?.invalid && bookForm.get('publicationDate')?.touched">
+        Publication date is required
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button 
+        type="button" 
+        class="btn btn-secondary" 
+        (click)="onCancel()">
+        Cancel
+      </button>
+      <button 
+        type="submit" 
+        class="btn btn-primary"
+        [disabled]="bookForm.invalid || submitting">
+        {{ submitting ? 'Saving...' : (book ? 'Update' : 'Add') }} Book
+      </button>
+    </div>
+  </form>
+</div>
