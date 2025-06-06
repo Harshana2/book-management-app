@@ -3,12 +3,14 @@ import { CommonModule } from '@angular/common';
 import { BookService } from '../../services/book.service';
 import { Book } from '../../models/book';
 import { BookFormComponent } from '../book-form/book-form.component';
+import { RouterModule } from '@angular/router';
+import { DashboardComponent } from '../dashboard/dashboard.component';
 
 
 @Component({
   selector: 'app-book-list',
   standalone: true,
-  imports: [CommonModule, BookFormComponent],
+  imports: [CommonModule, BookFormComponent, DashboardComponent, RouterModule],
   templateUrl: './book-list.component.html',
   styleUrl: './book-list.component.css'
 })

@@ -1,0 +1,121 @@
+<!-- Dashboard Header -->
+<header class="dashboard-header">
+  <div class="header-left">
+    <div class="logo">
+      <span class="logo-icon">📚</span>
+      <span class="logo-text">BookSuite</span>
+    </div>
+  </div>
+  <!-- Removed header-right (user-info) -->
+</header>
+
+<!-- Main Dashboard Container -->
+<div class="dashboard-container">
+  <h2 class="dashboard-title">📊 Book Dashboard</h2>
+
+  <!-- Navigation Buttons -->
+  <div class="dashboard-buttons">
+    <button class="nav-button" routerLink="/book-list">📖 View All Books</button>
+  </div>
+
+  <div class="dashboard-grid">
+    <!-- Widget 1: Latest 5 Books Table -->
+    <div class="widget">
+      <div class="widget-header">
+        <h3>🆕 Latest 5 Books</h3>
+        <select class="time-filter">
+          <option>Today</option>
+          <option>This Week</option>
+          <option>This Month</option>
+        </select>
+      </div>
+      <div class="widget-content">
+        <div class="table-container">
+          <table class="books-table">
+            <thead>
+              <tr>
+                <th>Book Id</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>ISBN</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let book of latestBooks">
+                <td>{{ book.id }}</td>
+                <td>{{ book.title }}</td>
+                <td>{{ book.author }}</td>
+                <td>{{ book.isbn }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Widget 2: Oldest 10 Books List -->
+    <div class="widget">
+      <div class="widget-header">
+        <h3>📚 Oldest 10 Books</h3>
+        <select class="time-filter">
+          <option>Today</option>
+          <option>This Week</option>
+          <option>This Month</option>
+        </select>
+      </div>
+      <div class="widget-content">
+        <div class="books-list-container">
+          <ul class="books-list">
+            <li *ngFor="let book of oldestBooks" class="book-item">
+              <div class="book-icon">📖</div>
+              <div class="book-info">
+                <div class="book-title">
+                  <strong>{{ book.id }} - {{ book.title }}</strong>
+                </div>
+                <div class="book-details">
+                  ({{ book.isbn }}) - {{ book.publicationDate | date:'MMM dd, yyyy' }}
+                </div>
+                <div class="book-status available">Available</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Widget 3: Books Grouped by Author Donut Chart -->
+    <div class="widget">
+      <div class="widget-header">
+        <h3>👤 Books Grouped by Author</h3>
+        <select class="time-filter">
+          <option>Today</option>
+          <option>This Week</option>
+          <option>This Month</option>
+        </select>
+      </div>
+      <div class="widget-content">
+        <div class="chart-section">
+          <div class="chart-summary">
+            <span class="total-amount">{{ getTotalBooks() }}</span>
+            <span class="total-label">Total Books by Authors</span>
+          </div>
+          <div class="chart-container">
+            <canvas id="authorChart"></canvas>
+          </div>
+          <div class="author-breakdown">
+            <div *ngFor="let data of chartData.slice(0, 5); let i = index" class="author-item">
+              <div class="author-color" [style.background-color]="getAuthorColor(i)"></div>
+              <span class="author-count">{{ data.count }}</span>
+              <span class="author-name">{{ data.author }}</span>
+            </div>
+            <div *ngIf="chartData.length > 5" class="author-item">
+              <div class="author-color" style="background-color: #84CC16"></div>
+              <span class="author-count">{{ getOthersCount() }}</span>
+              <span class="author-name">Others</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

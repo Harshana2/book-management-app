@@ -4,6 +4,11 @@
   padding: 40px 20px;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
+.nav-button {
+  text-align: right;
+  margin-bottom: 1rem;
+}
+
 
 h1 {
   text-align: center;
